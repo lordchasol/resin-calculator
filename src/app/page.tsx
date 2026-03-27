@@ -8,17 +8,19 @@ export default function Home() {
 
   const [pricePerLitre, setPricePerLitre] = useState(80);
   const [hourRate, setHourRate] = useState(30);
-  const [integrationPrice, setIntegrationPrice] = useState(1);
-  const [customPrice, setCustomPrice] = useState(1);
 
+  const [extras, setExtras] = useState<any[]>([]);
+  const [newExtraName, setNewExtraName] = useState("");
+  const [newExtraPrice, setNewExtraPrice] = useState(0);
+
+  // LOAD CONFIG
   useEffect(() => {
     const saved = localStorage.getItem("config");
     if (saved) {
       const config = JSON.parse(saved);
-      setPricePerLitre(config.pricePerLitre);
-      setHourRate(config.hourRate);
-      setIntegrationPrice(config.integrationPrice);
-      setCustomPrice(config.customPrice);
+      setPricePerLitre(config.pricePerLitre || 80);
+      setHourRate(config.hourRate || 30);
+      setExtras(config.extras || []);
     }
   }, []);
 
@@ -26,27 +28,46 @@ export default function Home() {
     const config = {
       pricePerLitre,
       hourRate,
-      integrationPrice,
-      customPrice,
+      extras,
     };
     localStorage.setItem("config", JSON.stringify(config));
     setShowAdmin(false);
   };
 
-  // PRICE
+  // ADD EXTRA
+  const addExtra = () => {
+    if (!newExtraName) return;
+
+    const updated = [
+      ...extras,
+      { name: newExtraName, price: newExtraPrice },
+    ];
+
+    setExtras(updated);
+    setNewExtraName("");
+    setNewExtraPrice(0);
+  };
+
+  // DELETE EXTRA
+  const deleteExtra = (index: number) => {
+    const updated = extras.filter((_, i) => i !== index);
+    setExtras(updated);
+  };
+
+  // PRICE CALCULATOR
   const [weight, setWeight] = useState(0);
-  const [integration, setIntegration] = useState(false);
   const [time, setTime] = useState(0);
-  const [custom, setCustom] = useState(false);
+  const [selectedExtras, setSelectedExtras] = useState<number[]>([]);
 
   const resinPrice = (weight / 1000) * pricePerLitre;
   const timePrice = (time / 60) * hourRate;
 
-  const total =
-    resinPrice +
-    timePrice +
-    (integration ? integrationPrice : 0) +
-    (custom ? customPrice : 0);
+  const extrasTotal = selectedExtras.reduce(
+    (sum, index) => sum + extras[index].price,
+    0
+  );
+
+  const total = resinPrice + timePrice + extrasTotal;
 
   // MIX
   const [quantity, setQuantity] = useState(0);
@@ -59,10 +80,7 @@ export default function Home() {
       {/* HEADER */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">🧪 Resin Calculator</h1>
-        <button
-          onClick={() => setShowAdmin(!showAdmin)}
-          className="text-xl"
-        >
+        <button onClick={() => setShowAdmin(!showAdmin)} className="text-xl">
           ⚙️
         </button>
       </div>
@@ -72,41 +90,91 @@ export default function Home() {
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
           <h2 className="font-semibold mb-4 text-lg">⚙️ Paramètres</h2>
 
-          <input
-            type="number"
-            value={pricePerLitre}
-            onChange={(e) => setPricePerLitre(Number(e.target.value))}
-            className="w-full p-3 border border-gray-300 rounded-xl mb-3"
-            placeholder="Prix €/L"
-          />
+          {/* PRIX RÉSINE */}
+          <div className="mb-4">
+            <label className="text-sm font-medium block mb-1">
+              Prix résine (€/L)
+            </label>
+            <input
+              type="number"
+              value={pricePerLitre}
+              onChange={(e) => setPricePerLitre(Number(e.target.value))}
+              className="w-full p-3 border border-gray-300 rounded-xl"
+            />
+          </div>
 
-          <input
-            type="number"
-            value={hourRate}
-            onChange={(e) => setHourRate(Number(e.target.value))}
-            className="w-full p-3 border border-gray-300 rounded-xl mb-3"
-            placeholder="€/heure"
-          />
+          {/* TAUX HORAIRE */}
+          <div className="mb-4">
+            <label className="text-sm font-medium block mb-1">
+              Taux horaire (€/h)
+            </label>
+            <input
+              type="number"
+              value={hourRate}
+              onChange={(e) => setHourRate(Number(e.target.value))}
+              className="w-full p-3 border border-gray-300 rounded-xl"
+            />
+          </div>
 
-          <input
-            type="number"
-            value={integrationPrice}
-            onChange={(e) => setIntegrationPrice(Number(e.target.value))}
-            className="w-full p-3 border border-gray-300 rounded-xl mb-3"
-            placeholder="Prix intégration"
-          />
+          {/* EXTRAS EXISTANTS */}
+          <div className="mb-4">
+            <h3 className="font-medium mb-2">Paramètres supplémentaires</h3>
 
-          <input
-            type="number"
-            value={customPrice}
-            onChange={(e) => setCustomPrice(Number(e.target.value))}
-            className="w-full p-3 border border-gray-300 rounded-xl mb-4"
-            placeholder="Prix personnalisation"
-          />
+            {extras.length === 0 && (
+              <p className="text-sm text-gray-500 mb-2">
+                Aucun paramètre ajouté
+              </p>
+            )}
+
+            {extras.map((extra, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center mb-2 bg-[#F8F5F2] p-2 rounded"
+              >
+                <span>
+                  {extra.name} (+{extra.price}€)
+                </span>
+                <button
+                  onClick={() => deleteExtra(index)}
+                  className="text-red-500 text-sm"
+                >
+                  ❌
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* AJOUT EXTRA */}
+          <div className="border-t pt-4">
+            <h3 className="font-medium mb-2">+ Ajouter un paramètre</h3>
+
+            <input
+              type="text"
+              placeholder="Nom (ex: Emballage)"
+              value={newExtraName}
+              onChange={(e) => setNewExtraName(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-xl mb-2"
+            />
+
+            <input
+              type="number"
+              placeholder="Prix (€)"
+              value={newExtraPrice}
+              onChange={(e) => setNewExtraPrice(Number(e.target.value))}
+              className="w-full p-3 border border-gray-300 rounded-xl mb-3"
+            />
+
+            <button
+              onClick={addExtra}
+              className="bg-[#C08457] text-white p-3 rounded-xl w-full"
+            >
+              + Ajouter
+            </button>
+          </div>
 
           <button
             onClick={saveConfig}
-            className="bg-[#3F3F46] text-white p-3 rounded-xl w-full active:scale-95 transition"
+            className="bg-[#3F3F46] text-white p-3 rounded-xl w-full mt-4"
           >
             Sauvegarder
           </button>
@@ -131,20 +199,25 @@ export default function Home() {
           onChange={(e) => setTime(Number(e.target.value))}
         />
 
-        <div className="flex justify-between items-center mb-2">
-          <span>Intégration</span>
-          <input
-            type="checkbox"
-            onChange={() => setIntegration(!integration)}
-          />
-        </div>
-
-        <div className="flex justify-between items-center mb-4">
-          <span>Personnalisation</span>
-          <input
-            type="checkbox"
-            onChange={() => setCustom(!custom)}
-          />
+        {/* EXTRAS CHECKBOX */}
+        <div className="mb-4">
+          {extras.map((extra, index) => (
+            <label key={index} className="flex justify-between mb-1">
+              {extra.name} (+{extra.price}€)
+              <input
+                type="checkbox"
+                onChange={() => {
+                  if (selectedExtras.includes(index)) {
+                    setSelectedExtras(
+                      selectedExtras.filter((i) => i !== index)
+                    );
+                  } else {
+                    setSelectedExtras([...selectedExtras, index]);
+                  }
+                }}
+              />
+            </label>
+          ))}
         </div>
 
         <div className="bg-[#C08457] text-white p-4 rounded-xl text-center text-xl font-bold">
