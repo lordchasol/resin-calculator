@@ -2,6 +2,12 @@
 
 import { useState, useEffect } from "react";
 import TrendingColors from "@/components/TrendingColors";
+import { supabase } from "@/lib/supabase";
+
+interface Extra {
+  name: string;
+  price: number;
+}
 
 export default function Home() {
   // ADMIN
@@ -10,24 +16,65 @@ export default function Home() {
   const [pricePerLitre, setPricePerLitre] = useState(80);
   const [hourRate, setHourRate] = useState(30);
 
-  const [extras, setExtras] = useState<any[]>([]);
+  const [extras, setExtras] = useState<Extra[]>([]);
   const [newExtraName, setNewExtraName] = useState("");
   const [newExtraPrice, setNewExtraPrice] = useState(0);
 
-  // LOAD CONFIG
+  // LOAD CONFIG — Supabase en priorité, localStorage en fallback
   useEffect(() => {
-    const saved = localStorage.getItem("config");
-    if (saved) {
-      const config = JSON.parse(saved);
-      setPricePerLitre(config.pricePerLitre || 80);
-      setHourRate(config.hourRate || 30);
-      setExtras(config.extras || []);
-    }
+    const loadConfig = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("resin_config")
+          .select("price_per_litre, hour_rate, extras")
+          .limit(1)
+          .single();
+
+        if (!error && data) {
+          setPricePerLitre(data.price_per_litre ?? 80);
+          setHourRate(data.hour_rate ?? 30);
+          setExtras(data.extras ?? []);
+          return;
+        }
+      } catch (_) {
+        // Supabase indisponible, on passe au fallback
+      }
+
+      // Fallback localStorage
+      const saved = localStorage.getItem("config");
+      if (saved) {
+        const config = JSON.parse(saved);
+        setPricePerLitre(config.pricePerLitre || 80);
+        setHourRate(config.hourRate || 30);
+        setExtras(config.extras || []);
+      }
+    };
+
+    loadConfig();
   }, []);
 
-  const saveConfig = () => {
-    const config = { pricePerLitre, hourRate, extras };
-    localStorage.setItem("config", JSON.stringify(config));
+  const saveConfig = async () => {
+    try {
+      await supabase.from("resin_config").upsert({
+        id: 1,
+        price_per_litre: pricePerLitre,
+        hour_rate: hourRate,
+        extras,
+      });
+    } catch (_) {
+      // Supabase indisponible, on sauvegarde en localStorage
+      localStorage.setItem(
+        "config",
+        JSON.stringify({ pricePerLitre, hourRate, extras })
+      );
+    }
+
+    // Toujours sauvegarder en localStorage comme cache local
+    localStorage.setItem(
+      "config",
+      JSON.stringify({ pricePerLitre, hourRate, extras })
+    );
+
     setShowAdmin(false);
   };
 
