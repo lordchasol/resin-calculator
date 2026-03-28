@@ -92,8 +92,8 @@ def fetch_with_pytrends():
     colors = []
     for kw, meta in COLOR_CATALOG.items():
         raw_score = int(df[kw].mean()) if kw in df.columns else None
-        # Si pytrends renvoie 0 ou None, on replie sur le score éditorial par défaut
-        score = raw_score if raw_score else meta["default_score"]
+        # Si pytrends renvoie None ou un score <= 5 (signal trop faible), on replie sur le score éditorial par défaut
+        score = raw_score if (raw_score is not None and raw_score > 5) else meta["default_score"]
         colors.append({k: v for k, v in {**meta, "trending_score": score}.items() if k != "default_score"})
 
     # Trier par score décroissant (None en dernier)
