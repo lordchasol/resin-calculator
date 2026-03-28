@@ -27,14 +27,15 @@ EDITORIAL_COLORS = [
     },
 ]
 
-# Couleurs à suivre sur Google Trends → chacune mappée à ses métadonnées
-TREND_KEYWORDS = {
+# Catalogue : couleurs à suivre sur Google Trends + scores éditoriaux par défaut
+COLOR_CATALOG = {
     "mocha color": {
         "name": "Mocha Mousse",
         "hex": "#A07850",
         "vibe": "Chaleur terreuse et confort automnal",
         "source": "Google Trends · Pantone 2025",
         "resin_tip": "Mélanger avec de la poudre bronze pour un effet velours mat.",
+        "default_score": 72,
     },
     "sage green color": {
         "name": "Sage Green",
@@ -42,6 +43,7 @@ TREND_KEYWORDS = {
         "vibe": "Nature, sérénité et minimalisme",
         "source": "Google Trends · Pinterest",
         "resin_tip": "Combiner avec du blanc nacré pour un effet brume matinale.",
+        "default_score": 65,
     },
     "butter yellow color": {
         "name": "Butter Yellow",
@@ -49,6 +51,7 @@ TREND_KEYWORDS = {
         "vibe": "Soleil doux et optimisme",
         "source": "Google Trends · Pinterest",
         "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
+        "default_score": 58,
     },
     "clay color": {
         "name": "Clay",
@@ -56,6 +59,7 @@ TREND_KEYWORDS = {
         "vibe": "Terracotta moderne et artisanal",
         "source": "Google Trends · Pantone",
         "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
+        "default_score": 55,
     },
     "digital lavender": {
         "name": "Digital Lavender",
@@ -63,57 +67,21 @@ TREND_KEYWORDS = {
         "vibe": "Tech, rêve et douceur futuriste",
         "source": "Google Trends · WGSN 2025",
         "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
+        "default_score": 60,
     },
 }
 
+# Dérivé du catalogue pour le mode fallback (sans appel réseau)
 FALLBACK_COLORS = [
-    {
-        "name": "Mocha Mousse",
-        "hex": "#A07850",
-        "vibe": "Chaleur terreuse et confort automnal",
-        "source": "Pantone 2025",
-        "resin_tip": "Mélanger avec de la poudre bronze pour un effet velours mat.",
-        "trending_score": None,
-    },
-    {
-        "name": "Sage Green",
-        "hex": "#87A878",
-        "vibe": "Nature, sérénité et minimalisme",
-        "source": "Pinterest Trends",
-        "resin_tip": "Combiner avec du blanc nacré pour un effet brume matinale.",
-        "trending_score": None,
-    },
-    {
-        "name": "Butter Yellow",
-        "hex": "#F5E06E",
-        "vibe": "Soleil doux et optimisme",
-        "source": "Pinterest Trends",
-        "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
-        "trending_score": None,
-    },
-    {
-        "name": "Clay",
-        "hex": "#C4856A",
-        "vibe": "Terracotta moderne et artisanal",
-        "source": "Pantone",
-        "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
-        "trending_score": None,
-    },
-    {
-        "name": "Digital Lavender",
-        "hex": "#C2A9CE",
-        "vibe": "Tech, rêve et douceur futuriste",
-        "source": "WGSN 2025",
-        "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
-        "trending_score": None,
-    },
+    {k: v for k, v in {**meta, "trending_score": meta["default_score"]}.items() if k != "default_score"}
+    for meta in COLOR_CATALOG.values()
 ]
 
 
 def fetch_with_pytrends():
     from pytrends.request import TrendReq
 
-    keywords = list(TREND_KEYWORDS.keys())
+    keywords = list(COLOR_CATALOG.keys())
     pytrends = TrendReq(hl="fr-FR", tz=60)
     pytrends.build_payload(keywords, cat=0, timeframe="today 3-m", geo="FR")
     df = pytrends.interest_over_time()
@@ -122,9 +90,11 @@ def fetch_with_pytrends():
         return None
 
     colors = []
-    for kw, meta in TREND_KEYWORDS.items():
-        score = int(df[kw].mean()) if kw in df.columns else None
-        colors.append({**meta, "trending_score": score})
+    for kw, meta in COLOR_CATALOG.items():
+        raw_score = int(df[kw].mean()) if kw in df.columns else None
+        # Si pytrends renvoie 0 ou None, on replie sur le score éditorial par défaut
+        score = raw_score if raw_score else meta["default_score"]
+        colors.append({k: v for k, v in {**meta, "trending_score": score}.items() if k != "default_score"})
 
     # Trier par score décroissant (None en dernier)
     colors.sort(key=lambda c: c["trending_score"] or 0, reverse=True)
