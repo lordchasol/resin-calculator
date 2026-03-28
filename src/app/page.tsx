@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import TrendingColors from "@/components/TrendingColors";
 
 export default function Home() {
   // ADMIN
@@ -25,11 +26,7 @@ export default function Home() {
   }, []);
 
   const saveConfig = () => {
-    const config = {
-      pricePerLitre,
-      hourRate,
-      extras,
-    };
+    const config = { pricePerLitre, hourRate, extras };
     localStorage.setItem("config", JSON.stringify(config));
     setShowAdmin(false);
   };
@@ -37,21 +34,14 @@ export default function Home() {
   // ADD EXTRA
   const addExtra = () => {
     if (!newExtraName) return;
-
-    const updated = [
-      ...extras,
-      { name: newExtraName, price: newExtraPrice },
-    ];
-
-    setExtras(updated);
+    setExtras([...extras, { name: newExtraName, price: newExtraPrice }]);
     setNewExtraName("");
     setNewExtraPrice(0);
   };
 
   // DELETE EXTRA
   const deleteExtra = (index: number) => {
-    const updated = extras.filter((_, i) => i !== index);
-    setExtras(updated);
+    setExtras(extras.filter((_, i) => i !== index));
   };
 
   // PRICE CALCULATOR
@@ -61,12 +51,10 @@ export default function Home() {
 
   const resinPrice = (weight / 1000) * pricePerLitre;
   const timePrice = (time / 60) * hourRate;
-
   const extrasTotal = selectedExtras.reduce(
     (sum, index) => sum + extras[index].price,
     0
   );
-
   const total = resinPrice + timePrice + extrasTotal;
 
   // MIX
@@ -90,11 +78,8 @@ export default function Home() {
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
           <h2 className="font-semibold mb-4 text-lg">⚙️ Paramètres</h2>
 
-          {/* PRIX RÉSINE */}
           <div className="mb-4">
-            <label className="text-sm font-medium block mb-1">
-              Prix résine (€/L)
-            </label>
+            <label className="text-sm font-medium block mb-1">Prix résine (€/L)</label>
             <input
               type="number"
               value={pricePerLitre}
@@ -103,11 +88,8 @@ export default function Home() {
             />
           </div>
 
-          {/* TAUX HORAIRE */}
           <div className="mb-4">
-            <label className="text-sm font-medium block mb-1">
-              Taux horaire (€/h)
-            </label>
+            <label className="text-sm font-medium block mb-1">Taux horaire (€/h)</label>
             <input
               type="number"
               value={hourRate}
@@ -116,38 +98,21 @@ export default function Home() {
             />
           </div>
 
-          {/* EXTRAS EXISTANTS */}
           <div className="mb-4">
             <h3 className="font-medium mb-2">Paramètres supplémentaires</h3>
-
             {extras.length === 0 && (
-              <p className="text-sm text-gray-500 mb-2">
-                Aucun paramètre ajouté
-              </p>
+              <p className="text-sm text-gray-500 mb-2">Aucun paramètre ajouté</p>
             )}
-
             {extras.map((extra, index) => (
-              <div
-                key={index}
-                className="flex justify-between items-center mb-2 bg-[#F8F5F2] p-2 rounded"
-              >
-                <span>
-                  {extra.name} (+{extra.price}€)
-                </span>
-                <button
-                  onClick={() => deleteExtra(index)}
-                  className="text-red-500 text-sm"
-                >
-                  ❌
-                </button>
+              <div key={index} className="flex justify-between items-center mb-2 bg-[#F8F5F2] p-2 rounded">
+                <span>{extra.name} (+{extra.price}€)</span>
+                <button onClick={() => deleteExtra(index)} className="text-red-500 text-sm">❌</button>
               </div>
             ))}
           </div>
 
-          {/* AJOUT EXTRA */}
           <div className="border-t pt-4">
             <h3 className="font-medium mb-2">+ Ajouter un paramètre</h3>
-
             <input
               type="text"
               placeholder="Nom (ex: Emballage)"
@@ -155,7 +120,6 @@ export default function Home() {
               onChange={(e) => setNewExtraName(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-xl mb-2"
             />
-
             <input
               type="number"
               placeholder="Prix (€)"
@@ -163,19 +127,12 @@ export default function Home() {
               onChange={(e) => setNewExtraPrice(Number(e.target.value))}
               className="w-full p-3 border border-gray-300 rounded-xl mb-3"
             />
-
-            <button
-              onClick={addExtra}
-              className="bg-[#C08457] text-white p-3 rounded-xl w-full"
-            >
+            <button onClick={addExtra} className="bg-[#C08457] text-white p-3 rounded-xl w-full">
               + Ajouter
             </button>
           </div>
 
-          <button
-            onClick={saveConfig}
-            className="bg-[#3F3F46] text-white p-3 rounded-xl w-full mt-4"
-          >
+          <button onClick={saveConfig} className="bg-[#3F3F46] text-white p-3 rounded-xl w-full mt-4">
             Sauvegarder
           </button>
         </div>
@@ -199,7 +156,6 @@ export default function Home() {
           onChange={(e) => setTime(Number(e.target.value))}
         />
 
-        {/* EXTRAS CHECKBOX */}
         <div className="mb-4">
           {extras.map((extra, index) => (
             <label key={index} className="flex justify-between mb-1">
@@ -208,9 +164,7 @@ export default function Home() {
                 type="checkbox"
                 onChange={() => {
                   if (selectedExtras.includes(index)) {
-                    setSelectedExtras(
-                      selectedExtras.filter((i) => i !== index)
-                    );
+                    setSelectedExtras(selectedExtras.filter((i) => i !== index));
                   } else {
                     setSelectedExtras([...selectedExtras, index]);
                   }
@@ -241,13 +195,16 @@ export default function Home() {
             <p className="text-sm text-gray-600">Résine A</p>
             <p className="text-lg font-bold">{partA.toFixed(2)} g</p>
           </div>
-
           <div className="flex-1 bg-[#F1ECE7] p-3 rounded-xl text-center">
             <p className="text-sm text-gray-600">Résine B</p>
             <p className="text-lg font-bold">{partB.toFixed(2)} g</p>
           </div>
         </div>
       </div>
+
+      {/* COULEURS DU MOMENT — en bas de page */}
+      <TrendingColors />
+
     </main>
   );
 }
