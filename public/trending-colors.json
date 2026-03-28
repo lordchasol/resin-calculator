@@ -3,20 +3,12 @@
   "data_source": "Google Trends · Pantone · Pinterest",
   "colors": [
     {
-      "name": "Clay",
-      "hex": "#C4856A",
-      "vibe": "Terracotta moderne et artisanal",
-      "source": "Google Trends · Pantone",
-      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
-      "trending_score": 1
-    },
-    {
       "name": "Mocha Mousse",
       "hex": "#A07850",
       "vibe": "Chaleur terreuse et confort automnal",
       "source": "Google Trends · Pantone 2025",
       "resin_tip": "Mélanger avec de la poudre bronze pour un effet velours mat.",
-      "trending_score": 0
+      "trending_score": 72
     },
     {
       "name": "Sage Green",
@@ -24,15 +16,7 @@
       "vibe": "Nature, sérénité et minimalisme",
       "source": "Google Trends · Pinterest",
       "resin_tip": "Combiner avec du blanc nacré pour un effet brume matinale.",
-      "trending_score": 0
-    },
-    {
-      "name": "Butter Yellow",
-      "hex": "#F5E06E",
-      "vibe": "Soleil doux et optimisme",
-      "source": "Google Trends · Pinterest",
-      "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
-      "trending_score": 0
+      "trending_score": 65
     },
     {
       "name": "Digital Lavender",
@@ -40,7 +24,23 @@
       "vibe": "Tech, rêve et douceur futuriste",
       "source": "Google Trends · WGSN 2025",
       "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
-      "trending_score": 0
+      "trending_score": 60
+    },
+    {
+      "name": "Butter Yellow",
+      "hex": "#F5E06E",
+      "vibe": "Soleil doux et optimisme",
+      "source": "Google Trends · Pinterest",
+      "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
+      "trending_score": 58
+    },
+    {
+      "name": "Clay",
+      "hex": "#C4856A",
+      "vibe": "Terracotta moderne et artisanal",
+      "source": "Google Trends · Pantone",
+      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
+      "trending_score": 55
     },
     {
       "name": "Peach Fuzz",
