@@ -1,12 +1,12 @@
 {
   "month": "Mars 2026",
-  "data_source": "Google Trends · Pantone · Pinterest",
+  "data_source": "Claude · Pantone · Pinterest",
   "colors": [
     {
       "name": "Mocha Mousse",
       "hex": "#A07850",
       "vibe": "Chaleur terreuse et confort automnal",
-      "source": "Google Trends · Pantone 2025",
+      "source": "Pantone 2025",
       "resin_tip": "Mélanger avec de la poudre bronze pour un effet velours mat.",
       "trending_score": 72
     },
@@ -14,33 +14,9 @@
       "name": "Sage Green",
       "hex": "#87A878",
       "vibe": "Nature, sérénité et minimalisme",
-      "source": "Google Trends · Pinterest",
+      "source": "Pinterest Trends",
       "resin_tip": "Combiner avec du blanc nacré pour un effet brume matinale.",
       "trending_score": 65
-    },
-    {
-      "name": "Digital Lavender",
-      "hex": "#C2A9CE",
-      "vibe": "Tech, rêve et douceur futuriste",
-      "source": "Google Trends · WGSN 2025",
-      "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
-      "trending_score": 60
-    },
-    {
-      "name": "Butter Yellow",
-      "hex": "#F5E06E",
-      "vibe": "Soleil doux et optimisme",
-      "source": "Google Trends · Pinterest",
-      "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
-      "trending_score": 58
-    },
-    {
-      "name": "Clay",
-      "hex": "#C4856A",
-      "vibe": "Terracotta moderne et artisanal",
-      "source": "Google Trends · Pantone",
-      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
-      "trending_score": 55
     },
     {
       "name": "Peach Fuzz",
@@ -48,7 +24,31 @@
       "vibe": "Douceur pastel & chaleur printanière",
       "source": "Pantone 2024",
       "resin_tip": "Parfait en fond translucide avec des pigments irisés dorés.",
-      "trending_score": null
+      "trending_score": 62
+    },
+    {
+      "name": "Digital Lavender",
+      "hex": "#C2A9CE",
+      "vibe": "Tech, rêve et douceur futuriste",
+      "source": "WGSN 2025",
+      "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
+      "trending_score": 60
+    },
+    {
+      "name": "Butter Yellow",
+      "hex": "#F5E06E",
+      "vibe": "Soleil doux et optimisme",
+      "source": "Pinterest Trends",
+      "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
+      "trending_score": 58
+    },
+    {
+      "name": "Clay",
+      "hex": "#C4856A",
+      "vibe": "Terracotta moderne et artisanal",
+      "source": "Pantone",
+      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
+      "trending_score": 55
     },
     {
       "name": "Midnight Blue",
@@ -56,7 +56,7 @@
       "vibe": "Profondeur mystérieuse",
       "source": "Pantone",
       "resin_tip": "Ajouter des paillettes argentées pour un effet nuit étoilée.",
-      "trending_score": null
+      "trending_score": 50
     }
   ]
 }
