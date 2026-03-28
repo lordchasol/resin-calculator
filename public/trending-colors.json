@@ -1,1 +1,62 @@
-
+{
+  "month": "Mars 2026",
+  "data_source": "fallback · Pantone · Pinterest",
+  "colors": [
+    {
+      "name": "Mocha Mousse",
+      "hex": "#A07850",
+      "vibe": "Chaleur terreuse et confort automnal",
+      "source": "Pantone 2025",
+      "resin_tip": "Mélanger avec de la poudre bronze pour un effet velours mat.",
+      "trending_score": null
+    },
+    {
+      "name": "Sage Green",
+      "hex": "#87A878",
+      "vibe": "Nature, sérénité et minimalisme",
+      "source": "Pinterest Trends",
+      "resin_tip": "Combiner avec du blanc nacré pour un effet brume matinale.",
+      "trending_score": null
+    },
+    {
+      "name": "Butter Yellow",
+      "hex": "#F5E06E",
+      "vibe": "Soleil doux et optimisme",
+      "source": "Pinterest Trends",
+      "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
+      "trending_score": null
+    },
+    {
+      "name": "Clay",
+      "hex": "#C4856A",
+      "vibe": "Terracotta moderne et artisanal",
+      "source": "Pantone",
+      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
+      "trending_score": null
+    },
+    {
+      "name": "Digital Lavender",
+      "hex": "#C2A9CE",
+      "vibe": "Tech, rêve et douceur futuriste",
+      "source": "WGSN 2025",
+      "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
+      "trending_score": null
+    },
+    {
+      "name": "Peach Fuzz",
+      "hex": "#FFBE98",
+      "vibe": "Douceur pastel & chaleur printanière",
+      "source": "Pantone 2024",
+      "resin_tip": "Parfait en fond translucide avec des pigments irisés dorés.",
+      "trending_score": null
+    },
+    {
+      "name": "Midnight Blue",
+      "hex": "#1B2A4A",
+      "vibe": "Profondeur mystérieuse",
+      "source": "Pantone",
+      "resin_tip": "Ajouter des paillettes argentées pour un effet nuit étoilée.",
+      "trending_score": null
+    }
+  ]
+}
