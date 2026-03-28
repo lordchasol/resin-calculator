@@ -1,46 +1,46 @@
 {
   "month": "Mars 2026",
-  "data_source": "fallback · Pantone · Pinterest",
+  "data_source": "Google Trends · Pantone · Pinterest",
   "colors": [
+    {
+      "name": "Clay",
+      "hex": "#C4856A",
+      "vibe": "Terracotta moderne et artisanal",
+      "source": "Google Trends · Pantone",
+      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
+      "trending_score": 1
+    },
     {
       "name": "Mocha Mousse",
       "hex": "#A07850",
       "vibe": "Chaleur terreuse et confort automnal",
-      "source": "Pantone 2025",
+      "source": "Google Trends · Pantone 2025",
       "resin_tip": "Mélanger avec de la poudre bronze pour un effet velours mat.",
-      "trending_score": null
+      "trending_score": 0
     },
     {
       "name": "Sage Green",
       "hex": "#87A878",
       "vibe": "Nature, sérénité et minimalisme",
-      "source": "Pinterest Trends",
+      "source": "Google Trends · Pinterest",
       "resin_tip": "Combiner avec du blanc nacré pour un effet brume matinale.",
-      "trending_score": null
+      "trending_score": 0
     },
     {
       "name": "Butter Yellow",
       "hex": "#F5E06E",
       "vibe": "Soleil doux et optimisme",
-      "source": "Pinterest Trends",
+      "source": "Google Trends · Pinterest",
       "resin_tip": "Idéal pour les pièces de décoration lumineuses en été.",
-      "trending_score": null
-    },
-    {
-      "name": "Clay",
-      "hex": "#C4856A",
-      "vibe": "Terracotta moderne et artisanal",
-      "source": "Pantone",
-      "resin_tip": "Associer avec du doré pour un rendu luxe méditerranéen.",
-      "trending_score": null
+      "trending_score": 0
     },
     {
       "name": "Digital Lavender",
       "hex": "#C2A9CE",
       "vibe": "Tech, rêve et douceur futuriste",
-      "source": "WGSN 2025",
+      "source": "Google Trends · WGSN 2025",
       "resin_tip": "Superposer avec du violet foncé pour créer de la profondeur.",
-      "trending_score": null
+      "trending_score": 0
     },
     {
       "name": "Peach Fuzz",
